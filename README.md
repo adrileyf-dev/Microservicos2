@@ -11,7 +11,7 @@
     
  
  
- ![Descrição da Imagem](images/logo.png)
+ ![Descrição da Imagem](logo.png)
 
 ### Conecte-se comigo:
  
