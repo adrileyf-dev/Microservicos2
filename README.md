@@ -11,7 +11,7 @@
     
  
  
- ![Descrição da Imagem](logo.png)
+ ![Descrição da Imagem](Arquitetura Proposta.png)
 
 ### Conecte-se comigo:
  
