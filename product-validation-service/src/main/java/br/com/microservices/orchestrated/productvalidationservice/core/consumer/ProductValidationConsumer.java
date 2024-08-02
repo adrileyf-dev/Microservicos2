@@ -14,18 +14,19 @@ public class ProductValidationConsumer {
     private final ProductValidationService productValidationService;
 
     @KafkaListener(
-            groupId = "${spring.kafka.consumer.group-id}",
-            topics = "${spring.kafka.topic.product-validation-success}"
+      groupId = "${spring.kafka.consumer.group-id}",
+      topics = "${spring.kafka.topic.product-validation-success}"
     )
+
     public void consumeSuccessEvent(String payload)
     {
-        log.info("Receiving success event{} from product-validation-success ",payload);
+       log.info("Receiving success event{} from product-validation-success ",payload);
         var event = jsonUtil.toEvent(payload);
         productValidationService.validateExistingProducts(event);
     }
     @KafkaListener(
-            groupId = "${spring.kafka.consumer.group-id}",
-            topics = "${spring.kafka.topic.product-validation-fail}"
+       groupId = "${spring.kafka.consumer.group-id}",
+       topics = "${spring.kafka.topic.product-validation-fail}"
     )
     public void consumeFailEvent(String payload)
     {
