@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 @Builder
 public class History {
 
-    private String souce;
+    private String source;
     private ESagaStatus status;
-    private  String mesage;
-    private LocalDateTime creatAt;
+    private  String message;
+    private LocalDateTime createdAt;
 
 
 

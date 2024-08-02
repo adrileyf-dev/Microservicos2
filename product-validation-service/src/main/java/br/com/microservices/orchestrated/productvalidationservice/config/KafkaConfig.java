@@ -1,5 +1,4 @@
 package br.com.microservices.orchestrated.productvalidationservice.config;
-
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -12,42 +11,34 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.*;
-
 import java.util.HashMap;
 import java.util.Map;
-
 @EnableKafka
 @Configuration
 @RequiredArgsConstructor
 public class KafkaConfig {
-    private  static final Integer PARTITION_COUNT =1;
-    private  static final Integer REPLICA_COUNT   =1;
+    private  static final Integer PARTITION_COUNT = 1;
+    private  static final Integer REPLICA_COUNT  = 1;
     @Value("${spring.kafka.bootstrap-servers}")
-    private String bootstrapservers;
+    private String bootstrapServers;
     @Value("${spring.kafka.consumer.group-id}")
-    private String groupid;
+    private String groupId;
     @Value("${spring.kafka.consumer.auto-offset-reset}")
     private String autoOffsetReset;
-
     @Value("${spring.kafka.topic.orchestrator}")
-    private String orchestrator;
-
-    @Value("${spring.kafka.topic.product-validation-sucess}")
-    private String productvalidationsucess;
-
+    private String orchestratorTopic;
+    @Value("${spring.kafka.topic.product-validation-success}")
+    private String productValidationSuccessTopic;
     @Value("${spring.kafka.topic.product-validation-fail}")
-
-    private String productvalidationfail;
-
+    private String productValidationFailTopic;
     @Bean
      public ConsumerFactory<String,String>consumerFactory(){
         return  new DefaultKafkaConsumerFactory<>(consumerProps());
     }
-
     private Map<String,Object> consumerProps(){
         var props= new HashMap<String,Object>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,bootstrapservers);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG,groupid);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,bootstrapServers);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG,groupId);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,autoOffsetReset);
@@ -59,17 +50,15 @@ public class KafkaConfig {
     }
     private Map<String,Object> produceProps(){
         var props= new HashMap<String,Object>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,bootstrapservers);
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         return  props;
     }
     @Bean
     public KafkaTemplate<String,String> kafkaTemplate(ProducerFactory<String,String> producerFactory){
         return  new KafkaTemplate<>(producerFactory);
     }
-
-
     private NewTopic buildTopics(String name){
         return TopicBuilder
                 .name(name)
@@ -78,17 +67,16 @@ public class KafkaConfig {
                 .build();
     }
     @Bean
-    public NewTopic orchestrator(){
-        return  buildTopics(orchestrator);
+    public NewTopic orchestratorTopic(){
+        return  buildTopics(orchestratorTopic);
     }
     @Bean
-    public NewTopic productvalidationsucess(){
-        return  buildTopics(productvalidationsucess);
+    public NewTopic productValidationSuccessTopic(){
+        return  buildTopics(productValidationSuccessTopic);
     }
     @Bean
-    public NewTopic productvalidationfail(){
-        return  buildTopics(productvalidationfail);
+    public NewTopic productValidationFailTopic(){
+        return  buildTopics(productValidationFailTopic);
     }
-
 
 }

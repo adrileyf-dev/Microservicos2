@@ -7,19 +7,30 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Event {
-    private  String id;
-    private  String transactionId;
-    private  String orderId;
+    private String id;
+    private String transactionId;
+    private String orderId;
     private Order payload;
-    private  String souce;
+    private String source;
     private ESagaStatus status;
-    private  List<History> eventHistory;
-    private  LocalDateTime creatAt;
+    private List<History> eventHistory;
+    private LocalDateTime creatAt;
+
+    public void AddToHistory(History history){
+        if(isEmpty(eventHistory)){
+            eventHistory = new ArrayList<>();
+        }
+        eventHistory.add(history);
+    }
 }

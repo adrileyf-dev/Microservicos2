@@ -16,9 +16,9 @@ import java.util.List;
     private  String id;
     private List<OrderProduct> products;
     private LocalDateTime creatAt;
-    private String transcationId;
+    private String transactionId;
     private double totalAmount;
-    private int totalItens;
+    private int totalItems;
 
 
 
